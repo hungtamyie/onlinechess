@@ -2,35 +2,42 @@ class Renderer {
     constructor(game){
         this.game = game;
         this.flipped = false;
+        this.selected = false;
     }
     
     drawBoard(){
-        for (var r = 0; r < 8; r++) {
-            for (var f = 0; f < 8; f++) {
-                elem("b" + f + "-" + r).style.backgroundImage = "";
+        //Delete all pieces
+        for (let r = 0; r < 8; r++){
+            for (let f = 0; f < 8; f++){
+                if (elem("p" + r + "-" + f)) {
+                    removeElement("p" + r + "-" + f);
+                }
             }
         }
-        for (var i = 0; i < this.game.pieces.length; i++) {
+        //Place new pieces on board where they belong
+        for (let i = 0; i < this.game.pieces.length; i++){
             let piece = this.game.pieces[i];
             let position = "";
             if (!this.flipped) {
-                position = "b" + piece.x + "-" + piece.y;
+                position =  piece.x + "-" + piece.y;
             }
             else {
-                position = "b" + (7-piece.x) + "-" + (7-piece.y);
+                position = (7-piece.x) + "-" + (7-piece.y);
             }
             let color = ([" ", "w", "b"])[piece.team];
-            elem(position).style.backgroundImage = "url('./images/pieces/" + piece.name + "_" + color + ".png')";
+            elem("b" + position).innerHTML += "<img class='piece no_select' draggable='false' id='p" + position + "' src = './images/pieces/" + piece.name + "_" + color + ".png'></img>";
         }
     }
     
-    flip(){
+    rotateBoard(){
         if (this.flipped) {
             this.flipped = false;
         }
         else {
             this.flipped = true;
         }
+        this.updateGrid();
+        this.drawBoard();
     }
     
     updateGrid = () => {
@@ -50,8 +57,4 @@ class Renderer {
             elem("r" + i).innerHTML = modifier(i)+1;
         }
     }
-}
-
-class Draggable {
-    
 }

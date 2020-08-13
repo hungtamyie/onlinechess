@@ -5,16 +5,16 @@ window.onload = function(){
 };
 
 //Alphabet for reference 
-var alphabet = ["a","b","c","d","e","f","g","h"]
+const alphabet = ["a","b","c","d","e","f","g","h"]
 
 //Board creation function
 function createBoard(){
-    var table = elem("board");
-    for (var x = 0; x < 8; x++) {
+    let table = elem("board");
+    for (let x = 0; x < 8; x++) {
         table.innerHTML += "<tr id='row" + x + "''></tr>"
-        for (var y = 0; y < 8; y++) {
+        for (let y = 0; y < 8; y++) {
             let id = "b" + (y + "-") + (7-x);
-            elem("row" + x).innerHTML += "<td id='" + id + "'></td>"
+            elem("row" + x).innerHTML += "<td onmousedown='handleMouseDown(" + y + "," + (7-x) + ")' id='" + id + "'></td>"
             if (x == 7) {
                 elem(id).innerHTML += "<div class='marker file_marker no_select' id='f" + y + "'>" + alphabet[y] + "</div>"
             }
@@ -27,16 +27,27 @@ function createBoard(){
 
 //rotate the board function
 function rotateBoard(){
-    renderer.flip();
-    renderer.updateGrid();
-    renderer.drawBoard();
+    renderer.rotateBoard();
 }
 
-//Useful element function
+//Useful element functions
 function elem(e){
     return document.getElementById(e);
 }
 
+function removeElement(e) {
+    let element = elem(e);
+    element.parentNode.removeChild(element);
+}
+
+//mouse event handlers
+function handleMouseMove(){
+    console.log(" oaeifj");
+}
+
+function handleMouseDown(x, y){
+    console.log("drag");
+}
 
 //TEST FUNCTION
 let game;
