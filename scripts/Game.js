@@ -2,8 +2,6 @@ class Game {
     constructor() {
         //gamestate stuff
         this.pieces = [];
-        
-        //Test code
         let rook1 = new Rook(7, 0, 1, this);
         let rook2 = new Rook(0, 0, 1, this);
         let knight1 = new Knight(1, 0, 1, this);
@@ -22,19 +20,14 @@ class Game {
         this.pieces.push(king);
     }
     getMap() {
-        let pieceMap = [];
-        for(let x=0; x<8; x++) {
-            for(let y=0; y<8; y++) {
-                //for each board square
-                for(let i=0; i<this.pieces.length; i++) {
-                    //for each piece check if loc matches board square
-                    if(this.pieces[i].x == x && this.pieces[i].y == y) {
-                        pieceMap.push(this.pieces[i].team);
-                    } //HOW TO ADD ZEROS????
-                }
-            }
-        }
+        let pieceMap = Array(8).fill().map(() => Array(8).fill(0)); //8x8 array of zeros
+            this.pieces.forEach(function(currentValue) {
+                pieceMap[currentValue.y][currentValue.x] = currentValue.team;
+            })
         return pieceMap;
     }
 }
+let test = new Game();
+let pieceMap = test.getMap();
+console.log(pieceMap);
 
