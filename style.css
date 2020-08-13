@@ -1,0 +1,53 @@
+body {
+    background: #c4e1ff;
+}
+table {
+    background: #7fb35d;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border: 3px solid black;
+}
+td {
+    width: 95px;
+    height: 95px;
+    background-size: contain;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
+    background: #e0ffdb;
+    background-size: contain;
+}
+
+.marker {
+    width: 0;
+    height: 0;
+    font-size: 1.2vh;
+    display: inline-block;
+    position: relative;
+    color: #e0ffdb;
+    font-family: Arial;
+}
+
+.file_marker {
+    top: 42%;
+    left: 3%;
+}
+.rank_marker {
+    top: -40%;
+    left: 90%;
+}
+
+tr:nth-child(odd) td:nth-child(even) div, tr:nth-child(even) td:nth-child(odd) div{
+    color: #7fb35d;
+}
+
+.no_select {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
