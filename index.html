@@ -3,33 +3,27 @@
     <head>
         <meta charset="utf-8">
         <title>Chess</title>
+        <style>
+            table {
+                background: #7fb35d;
+                margin: 0 auto;
+                border-collapse: collapse;
+                border: 3px solid black;
+            }
+            td {
+                width: 100px;
+                height: 100px;
+                background-size: cover;
+            }
+            
+            tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {
+                background: white;
+                background-size: cover;
+            }
+        </style>
+        <script src="utility.js"></script>
     </head>
     <body>
-        <table>
-            <tr>
-
-            </tr>
-            <tr>
-
-            </tr>
-            <tr>
-                
-            </tr>
-            <tr>
-                
-            </tr>
-            <tr>
-                
-            </tr>
-            <tr>
-                
-            </tr>
-            <tr>
-                
-            </tr>
-            <tr>
-                
-            </tr>
-        </table>
+        <table><tbody id="board"></tbody></table>
     </body>
 </html>
