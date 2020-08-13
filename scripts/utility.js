@@ -2,6 +2,7 @@
 window.onload = function(){
     createBoard();
     runTest();
+    addEventListeners();
 };
 
 //Alphabet for reference 
@@ -14,12 +15,12 @@ function createBoard(){
         table.innerHTML += "<tr id='row" + x + "''></tr>"
         for (let y = 0; y < 8; y++) {
             let id = "b" + (y + "-") + (7-x);
-            elem("row" + x).innerHTML += "<td onmousedown='handleMouseDown(" + y + "," + (7-x) + ")' id='" + id + "'></td>"
+            elem("row" + x).innerHTML += "<td onmousemove='ui.mouse.boardX = " + y + "; ui.mouse.boardY = " + (7-x) + "' onmousedown='ui.handleMouseDown(" + y + "," + (7-x) + ")' id='" + id + "'></td>"
             if (x == 7) {
-                elem(id).innerHTML += "<div class='marker file_marker no_select' id='f" + y + "'>" + alphabet[y] + "</div>"
+                elem(id).innerHTML += "<div class='marker file_marker no_select' id='f" + y + "'>" + alphabet[y] + "</div>";
             }
             if (y == 7) {
-                elem(id).innerHTML += "<div class='marker rank_marker no_select' id='r" + (7-x) + "'>" + (8-x) + "</div>"
+                elem(id).innerHTML += "<div class='marker rank_marker no_select' id='r" + (7-x) + "'>" + (8-x) + "</div>";
             }
         }
     }
@@ -27,7 +28,14 @@ function createBoard(){
 
 //rotate the board function
 function rotateBoard(){
-    renderer.rotateBoard();
+    ui.rotateBoard();
+}
+
+//Add event listeners
+function addEventListeners(){
+    document.addEventListener("mousemove", function(e){ui.handleMouseMove(e)}, false);
+    document.addEventListener("mouseup", function(e){ui.handleMouseUp(e)}, false);
+    elem("board").addEventListener("mouseout", function(){ui.mouse.boardX=-1;ui.mouse.boardY=-1}, false);
 }
 
 //Useful element functions
@@ -40,20 +48,11 @@ function removeElement(e) {
     element.parentNode.removeChild(element);
 }
 
-//mouse event handlers
-function handleMouseMove(){
-    console.log(" oaeifj");
-}
-
-function handleMouseDown(x, y){
-    console.log("drag");
-}
-
 //TEST FUNCTION
 let game;
-let renderer;
+let ui;
 function runTest(){
     game = new Game();
-    renderer = new Renderer(game);
-    renderer.drawBoard();
+    ui = new UIHandler(game);
+    ui.drawBoard();
 }
