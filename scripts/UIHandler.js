@@ -94,9 +94,14 @@ class UIHandler {
     
     handleMouseUp(e){
         this.mouse.down = false;
-        if (this.mouse.piece) {
+        if (this.mouse.piece && ui.mouse.boardX != -1) {
             elem("draggable").style.visibility = "hidden";
             console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(ui.mouse.boardX) + ", " +this.modifier(ui.mouse.boardY) + ")");
         }
+        else {
+            elem("draggable").style.visibility = "hidden";
+        }
+        this.mouse.piece = false;
+        this.selectedPiece = false;
     }
 }
