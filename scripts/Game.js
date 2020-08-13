@@ -26,6 +26,14 @@ class Game {
             })
         return pieceMap;
     }
+    pieceAt(x,y){
+        for(let i=0; i<this.pieces.length; i++) {
+            if(this.pieces[i].x == x && this.pieces[i].y == y) {
+                return this.pieces[i];
+            }
+        }
+        return false;
+    }
 }
 let test = new Game();
 let pieceMap = test.getMap();
