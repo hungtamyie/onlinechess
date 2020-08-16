@@ -4,7 +4,7 @@ class Rook extends Piece {
         this.name = "rook";
     }
     spacesCovered() {
-        function isOccupied(space, piece) {
+        function isOccupied(space, piece) { //gets access to piece map
             let pieceMap = piece.myGame.getMap();
             if(pieceMap[space[1]][space[0]] == piece.team) {
                 //if pieceMap holds the team number at that spot, space is occupied by teammate
@@ -33,7 +33,6 @@ class Rook extends Piece {
             currentSpace.push(i); //then find y coord of space
             if(isOccupied(currentSpace, this) == 2) {
                 //if space is occupied by current piece, don't include
-                console.log("Space is occupied by this " + this.name);
                 i++;
             }else if(isOccupied(currentSpace, this) == 1) {
                 //if space is occupied by team, don't include and stop searching
@@ -56,7 +55,6 @@ class Rook extends Piece {
             currentSpace.push(i); //then find y coord of space
             if(isOccupied(currentSpace, this) == 2) {
                 //if space is occupied by current piece, don't include
-                console.log("Space is occupied by this " + this.name);
                 i--;
             }else if(isOccupied(currentSpace, this) == 1) {
                 //if space is occupied by team, don't include and stop searching
@@ -79,7 +77,6 @@ class Rook extends Piece {
             currentSpace.push(this.y); //then find y coord
             if(isOccupied(currentSpace, this) == 2) {
                 //if space is occupied by current piece, don't include
-                console.log("Space is occupied by this " + this.name);
                 i--;
             }else if(isOccupied(currentSpace, this) == 1) {
                 //if space is occupied by team, don't include and stop searching
@@ -102,7 +99,6 @@ class Rook extends Piece {
             currentSpace.push(this.y); //then find y coord
             if(isOccupied(currentSpace, this) == 2) {
                 //if space is occupied by current piece, don't include
-                console.log("Space is occupied by this " + this.name);
                 i++;
             }else if(isOccupied(currentSpace, this) == 1) {
                 //if space is occupied by team, don't include and stop searching
