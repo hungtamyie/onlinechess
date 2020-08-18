@@ -2,6 +2,7 @@ class Pawn extends Piece {
     constructor(x, y, team, myGame) {
         super(x, y, team, myGame);
         this.name = "pawn";
+        this.firstMove = true;
     }
     // pawn methods
     spacesCovered() {
@@ -16,17 +17,25 @@ class Pawn extends Piece {
         let x = this.x; //current pawn position
         let y = this.y; //current pawn position
         findPawnMoves(x, y+1);
+        if(this.firstMove) { //if pawn hasn't moved, it can move forward twice
+            findPawnMoves(x, y+2);
+        }
         findPawnMoves(x-1, y+1);
         findPawnMoves(x+1, y+1);
         //move legal spaces into availableSpaces array
         allPawnMoves.forEach(
-            (currentValue, index) => { if(index == 0) { //if we're checking straight forward space
+            (currentValue, index) => { 
+                if(index == 0) { //if we're checking straight forward space
                     //make sure it's unoccupied
                     if(this.isOccupied(currentValue, this) == -1) {
                         availableSpaces.push(currentValue);
                     }
-                }else {
-                    if(this.isOccupied(currentValue, this) == 0 || this.isOccupied(currentValue, this) == -1) {
+                }else if(this.firstMove && index == 1) { //if currentValue is 2 spaces forward
+                    if(this.isOccupied(currentValue, this) == -1) {
+                        availableSpaces.push(currentValue);
+                    }
+                }else { //check diagonal spaces
+                    if(this.isOccupied(currentValue, this) == 0) { //if occupied by enemy
                         availableSpaces.push(currentValue);
                     }
                 }
