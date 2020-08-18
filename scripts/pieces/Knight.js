@@ -6,8 +6,8 @@ class Knight extends Piece {
     spacesCovered() {
         //RETURNS ARRAY OF SPACES COVERED
         function findKnightMoves(x, y) { //fills allKnightMoves array
-            if(x > -1 && x < 8 && y > -1 && y < 8) {
-                allKnightMoves.push(Array(x, y));
+            if(x > -1 && x < 8 && y > -1 && y < 8) { //if piece is on board
+                allKnightMoves.push(Array(x, y)); //add to array
             }
         }
         let availableSpaces = []; //array that will be returned
