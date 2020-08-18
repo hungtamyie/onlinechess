@@ -25,15 +25,21 @@ class UIHandler {
         //Place new pieces on board where they belong
         for (let i = 0; i < this.game.pieces.length; i++){
             let piece = this.game.pieces[i];
-            let position = "";
-            if (!this.rotated) {
-                position =  piece.x + "-" + piece.y;
-            }
-            else {
-                position = (7-piece.x) + "-" + (7-piece.y);
-            }
+            let position =  this.modifier(piece.x) + "-" + this.modifier(piece.y);
             let color = ([" ", "w", "b"])[piece.team];
             elem("b" + position).innerHTML += "<img class='piece no_select' draggable='false' id='p" + position + "' src = './images/pieces/" + piece.name + "_" + color + ".png'></img>";
+        }
+    }
+    
+    drawSelectionUI(){
+        for (let i = 0; i < this.game.pieces.length; i++){
+            let piece = this.game.pieces[i];
+            let position =  this.modifier(piece.x) + "-" + this.modifier(piece.y);
+            elem("p"+position).classList.remove("selected");
+        }
+        if (this.selectedPiece) {
+            let position = this.modifier(this.selectedPiece.x) + "-" + this.modifier(this.selectedPiece.y);
+            elem("p"+position).classList.add("selected");
         }
     }
     
@@ -89,6 +95,13 @@ class UIHandler {
             elem("draggable").src = "./images/pieces/" + this.mouse.piece + ".png";
             
             this.selectedPiece = pieceClicked;
+            this.drawSelectionUI()
+            elem
+        }
+        else if (this.selectedPiece) {
+            console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(ui.mouse.boardX) + ", " +this.modifier(ui.mouse.boardY) + ")");    
+            this.selectedPiece = false;
+            this.drawSelectionUI()
         }
     }
     
@@ -96,12 +109,15 @@ class UIHandler {
         this.mouse.down = false;
         if (this.mouse.piece && ui.mouse.boardX != -1) {
             elem("draggable").style.visibility = "hidden";
-            console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(ui.mouse.boardX) + ", " +this.modifier(ui.mouse.boardY) + ")");
+            if (this.selectedPiece.x != ui.mouse.boardX || this.selectedPiece.y != ui.mouse.boardY) {
+                console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(ui.mouse.boardX) + ", " +this.modifier(ui.mouse.boardY) + ")");    
+                this.selectedPiece = false;
+                this.drawSelectionUI()
+            }
         }
         else {
             elem("draggable").style.visibility = "hidden";
         }
         this.mouse.piece = false;
-        this.selectedPiece = false;
     }
 }
