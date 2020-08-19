@@ -43,6 +43,17 @@ class UIHandler {
         }
     }
     
+    drawProposedMoveUI(){
+        for (let r = 0; r < 8; r++){
+            for (let f = 0; f < 8; f++){
+                elem("b" + r + "-" + f).classList.remove("proposed");
+                if (this.selectedPiece && this.mouse.boardX == r && this.mouse.boardY == f && !(this.modifier(this.mouse.boardX) == this.selectedPiece.x && this.modifier(this.mouse.boardY) == this.selectedPiece.y)) {
+                    elem("b" + r + "-" + f).classList.add("proposed");
+                }
+            }
+        }
+    }
+    
     rotateBoard(){
         if (this.rotated) {
             this.rotated = false;
@@ -75,6 +86,9 @@ class UIHandler {
                 elem("draggable").style.top = (y-47) + "px";
             }
         }
+        if (this.selectedPiece) {
+            this.drawProposedMoveUI();
+        }
     }
     
     modifier(num){
@@ -96,10 +110,11 @@ class UIHandler {
             
             this.selectedPiece = pieceClicked;
             this.drawSelectionUI()
+            this.drawProposedMoveUI()
             elem
         }
         else if (this.selectedPiece) {
-            console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(ui.mouse.boardX) + ", " +this.modifier(ui.mouse.boardY) + ")");    
+            console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(this.mouse.boardX) + ", " +this.modifier(this.mouse.boardY) + ")");    
             this.selectedPiece = false;
             this.drawSelectionUI()
         }
@@ -109,14 +124,18 @@ class UIHandler {
         this.mouse.down = false;
         if (this.mouse.piece && ui.mouse.boardX != -1) {
             elem("draggable").style.visibility = "hidden";
-            if (this.selectedPiece.x != ui.mouse.boardX || this.selectedPiece.y != ui.mouse.boardY) {
-                console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(ui.mouse.boardX) + ", " +this.modifier(ui.mouse.boardY) + ")");    
+            if (this.selectedPiece.x != this.modifier(ui.mouse.boardX) || this.selectedPiece.y != this.modifier(ui.mouse.boardY)) {
+                console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(this.mouse.boardX) + ", " +this.modifier(this.mouse.boardY) + ")");    
                 this.selectedPiece = false;
                 this.drawSelectionUI()
+                this.drawProposedMoveUI()
             }
         }
         else {
             elem("draggable").style.visibility = "hidden";
+            this.selectedPiece = false;
+            this.drawSelectionUI()
+            this.drawProposedMoveUI()
         }
         this.mouse.piece = false;
     }

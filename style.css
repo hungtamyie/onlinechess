@@ -35,6 +35,10 @@ tr:nth-child(odd) td:nth-child(odd), tr:nth-child(even) td:nth-child(even) {
     background: rgba(0,0,255,0.6);
 }
 
+.proposed {
+    background: rgb(0, 255, 255) !important;
+}
+
 .clicked {
     background: white !important;
 }
