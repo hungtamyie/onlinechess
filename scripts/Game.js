@@ -2,22 +2,20 @@ class Game {
     constructor() {
         //gamestate stuff
         this.pieces = [];
-        let rook1 = new Rook(7, 0, 1, this);
-        let rook2 = new Rook(0, 0, 1, this);
-        let knight1 = new Knight(1, 0, 1, this);
-        let knight2 = new Knight(6, 0, 1, this);
-        let bishop1 = new Bishop(5, 0, 1, this);
-        let bishop2 = new Bishop(2, 0, 1, this);
-        let queen = new Queen(3, 0, 1, this);
-        let king = new King(4, 0, 1, this);
-        this.pieces.push(rook1);
-        this.pieces.push(rook2);
-        this.pieces.push(knight1);
-        this.pieces.push(knight2);
-        this.pieces.push(bishop1);
-        this.pieces.push(bishop2);
-        this.pieces.push(queen);
-        this.pieces.push(king);
+        
+        for (let i = 0; i < 8; i++) {
+            this.pieces.push((new Pawn(i, 1, 1, this)));
+            this.pieces.push((new Pawn(i, 6, 2, this)));
+        }
+        for (let i = 0; i < 2; i++) {
+            for (let j=0; j<2; j++) {
+                this.pieces.push((new Rook(0 + 7*j, i * 7, i+1, this)));
+                this.pieces.push((new Knight(1 + 7*j - 2*j, i * 7, i+1, this)));
+                this.pieces.push((new Bishop(2 + 7*j - 4*j, i * 7, i+1, this)));
+            }
+            this.pieces.push((new King(4, i * 7, i+1, this)));
+            this.pieces.push((new Queen(3, i * 7, i+1, this)));
+        }
     }
     getMap() {
         let pieceMap = Array(8).fill().map(() => Array(8).fill(0)); //8x8 array of zeros
