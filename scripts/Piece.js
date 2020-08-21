@@ -6,8 +6,34 @@ class Piece {
         this.myGame = myGame;
     }
     
-    validMove(x,y) {
-        //check to see if move is legal
+    validMove(newX, newY) {
+        //checks to see if move is legal
+        let valid = false;
+        let availableSpaces = this.spacesCovered();
+        availableSpaces.forEach(
+            (currentValue) => {
+                if(currentValue[0] == newX && currentValue[1] == newY) { //if desired move is in spacesCovered
+                    console.log(newX + "," + newY + " is an available space");
+                    valid = true; //let valid be true (for now)
+                }
+            }
+        );
+        if(valid) { //must also call findCheck
+            this.x = newX;
+            this.y = newY; //if we make move, will king be in check?
+            for(let i=0; i<this.myGame.pieces.length; i++) { //loop through pieces 
+                if(this.myGame.pieces[i].name == "king" && this.myGame.pieces[i].team == this.team) { //to find team's king
+                    valid = !(this.myGame.findCheck(this.myGame.pieces[i]));
+                    if(valid) {
+                        console.log("This move is valid");
+                    }else {
+                        console.log("This leaves king in check");
+                    }
+                }
+            }
+
+        }
+        return valid;
     }
 
     isOccupied(space, piece) { //gets access to piece map

@@ -36,7 +36,7 @@ class Game {
         }
         return false;
     }
-    findCheck(king) { //finds if certain team's king is in check
+    findCheck(king) { //returns true if certain team's king is in check
         let isCheck = false; //will return true or false
         let x = king.x;
         let y = king.y;
