@@ -5,22 +5,46 @@
         <title>Chess</title>
         <link rel="stylesheet" type="text/css" href="style.css">
         </style>
-        <script src="scripts/UIHandler.js"></script>
-        <script src="scripts/utility.js"></script>
-        <script src="scripts/Piece.js"></script>
-        <script src="scripts/pieces/Bishop.js"></script>
-        <script src="scripts/pieces/King.js"></script>
-        <script src="scripts/pieces/Knight.js"></script>
-        <script src="scripts/pieces/Pawn.js"></script>
-        <script src="scripts/pieces/Queen.js"></script>
-        <script src="scripts/pieces/Rook.js"></script>
-        <script src="scripts/Game.js"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+        <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.min.js"></script>
+        <script src="./scripts/Connection.js"></script>
+        <script src="./scripts/UIHandler.js"></script>
+        <script src="./scripts/utility.js"></script>
+        <script src="./scripts/Piece.js"></script>
+        <script src="./scripts/pieces/Bishop.js"></script>
+        <script src="./scripts/pieces/King.js"></script>
+        <script src="./scripts/pieces/Knight.js"></script>
+        <script src="./scripts/pieces/Pawn.js"></script>
+        <script src="./scripts/pieces/Queen.js"></script>
+        <script src="./scripts/pieces/Rook.js"></script>
+        <script src="./scripts/Game.js"></script>
     </head>
     <body>
         <center>
         <br>
+        <div class="full_container">
         <table><tbody id="board"></tbody></table>
-        <button onclick="rotateBoard()">flip board</button>
+        <div class="right_container">
+            <div class="timer" id="timerTop">20:00</div>
+            <div class="name" id="nameTop">Roux</div>
+            <div class="ui_button" onclick="rotateBoard()">
+                <img src="images/rotate.png">
+            </div>
+            <div class="ui_button">
+                <img src="images/flag.png">
+            </div>
+            <div class="ui_button">
+                <img src="images/handshake.png">
+            </div>
+            <div id="chatbox" class="chatbox">
+            </div>
+            <input id="input" class="chat_input">
+            <img src="images/send.png" class="send_button"></img>
+            
+            <div class="name" id="nameBottom">Invincible</div>
+            <div class="timer" id="timerBottom">20:00</div>
+        </div>
+        </div>
         <img draggable="false" class="draggable_piece noselect avoid_clicks" id="draggable" src="images/pieces/bishop_b.png">
         </center>
     </body>

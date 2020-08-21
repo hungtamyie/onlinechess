@@ -8,6 +8,16 @@ window.onload = function(){
 //Alphabet for reference 
 const alphabet = ["a","b","c","d","e","f","g","h"]
 
+function makeid(length) {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
+
 //Board creation function
 function createBoard(){
     let table = elem("board");
@@ -15,7 +25,7 @@ function createBoard(){
         table.innerHTML += "<tr id='row" + x + "''></tr>"
         for (let y = 0; y < 8; y++) {
             let id = "b" + (y + "-") + (7-x);
-            elem("row" + x).innerHTML += "<td onmousemove='ui.mouse.boardX = " + y + "; ui.mouse.boardY = " + (7-x) + "' onmousedown='ui.handleMouseDown(" + y + "," + (7-x) + ")' id='" + id + "'></td>"
+            elem("row" + x).innerHTML += "<td onmousemove='ui.mouse.boardX = " + y + "; ui.mouse.boardY = " + (7-x) + "' onmousedown='ui.handleMouseDown(event, " + y + "," + (7-x) + ")' id='" + id + "'></td>"
             if (x == 7) {
                 elem(id).innerHTML += "<div class='marker file_marker no_select' id='f" + y + "'>" + alphabet[y] + "</div>";
             }
@@ -46,6 +56,14 @@ function elem(e){
 function removeElement(e) {
     let element = elem(e);
     element.parentNode.removeChild(element);
+}
+
+function setOpacity( imageid, opacity ) {
+    var s= document.getElementById(imageid).style;
+    s.opacity = ( opacity / 100 );
+    s.MozOpacity = ( opacity / 100 );
+    s.KhtmlOpacity = ( opacity / 100 );
+    s.filter = 'alpha(opacity=' + opacity + ')';
 }
 
 //TEST FUNCTION

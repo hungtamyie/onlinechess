@@ -7,9 +7,12 @@ class UIHandler {
             down: false,
             x: 0,
             y: 0,
+            startX: 0,
+            startY: 0,
             boardX: 0,
             boardY: 0,
             piece: false,
+            dragStarted: false
         };
     }
     
@@ -38,8 +41,10 @@ class UIHandler {
             elem("p"+position).classList.remove("selected");
         }
         if (this.selectedPiece) {
-            let position = this.modifier(this.selectedPiece.x) + "-" + this.modifier(this.selectedPiece.y);
-            elem("p"+position).classList.add("selected");
+            if (elem("draggable").style.visibility != "visible") {
+                let position = this.modifier(this.selectedPiece.x) + "-" + this.modifier(this.selectedPiece.y);
+                elem("p"+position).classList.add("selected");    
+            }
         }
     }
     
@@ -81,9 +86,17 @@ class UIHandler {
         let y = e.clientY;
         if ( typeof x !== 'undefined' ){
             if (this.mouse.down == true) {
+                if (Math.abs(x - this.mouse.startX) > 15 || Math.abs(y - this.mouse.startY) > 15 ) {
+                    this.mouse.dragStarted = true;
+                }
+            }
+            if (this.mouse.dragStarted == true && this.mouse.down == true) {
                 elem("draggable").style.visibility = "visible";
                 elem("draggable").style.left = (x-47) + "px";
                 elem("draggable").style.top = (y-47) + "px";
+                let position = this.modifier(this.selectedPiece.x) + "-" + this.modifier(this.selectedPiece.y);
+                setOpacity("p"+position, 50);
+                this.drawSelectionUI()
             }
         }
         if (this.selectedPiece) {
@@ -100,23 +113,39 @@ class UIHandler {
         }
     }
     
-    handleMouseDown(x,y){
+    handleMouseDown(e,x,y){
+        let px = e.clientX;
+        let py = e.clientY;
+        this.mouse.startX = px;
+        this.mouse.startY = py;
         var pieceClicked = this.game.pieceAt(this.modifier(x),this.modifier(y));
-        if (pieceClicked) {
-            this.mouse.down = true;
-            let color = ([" ", "w", "b"])[pieceClicked.team];
-            this.mouse.piece = pieceClicked.name + "_" + color;
-            elem("draggable").src = "./images/pieces/" + this.mouse.piece + ".png";
-            
-            this.selectedPiece = pieceClicked;
-            this.drawSelectionUI()
-            this.drawProposedMoveUI()
-            elem
+        if (pieceClicked && !this.selectedPiece) {
+            if (pieceClicked != this.selectedPiece) {
+                this.mouse.down = true;
+                let color = ([" ", "w", "b"])[pieceClicked.team];
+                this.mouse.piece = pieceClicked.name + "_" + color;
+                elem("draggable").src = "./images/pieces/" + this.mouse.piece + ".png";
+                
+                this.selectedPiece = pieceClicked;
+                this.drawSelectionUI()
+                this.drawProposedMoveUI()
+            }
+            else {
+                this.selectedPiece = false;
+                this.drawSelectionUI()
+                this.drawProposedMoveUI()
+            }
         }
-        else if (this.selectedPiece) {
+        else if (this.selectedPiece != pieceClicked) {
             console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(this.mouse.boardX) + ", " +this.modifier(this.mouse.boardY) + ")");    
             this.selectedPiece = false;
             this.drawSelectionUI()
+            this.drawProposedMoveUI()
+        }
+        else {
+            this.selectedPiece = false;
+            this.drawSelectionUI()
+            this.drawProposedMoveUI()
         }
     }
     
@@ -124,19 +153,30 @@ class UIHandler {
         this.mouse.down = false;
         if (this.mouse.piece && ui.mouse.boardX != -1) {
             elem("draggable").style.visibility = "hidden";
-            if (this.selectedPiece.x != this.modifier(ui.mouse.boardX) || this.selectedPiece.y != this.modifier(ui.mouse.boardY)) {
+            if (this.selectedPiece && (this.selectedPiece.x != this.modifier(ui.mouse.boardX) || this.selectedPiece.y != this.modifier(ui.mouse.boardY))) {
                 console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(this.mouse.boardX) + ", " +this.modifier(this.mouse.boardY) + ")");    
-                this.selectedPiece = false;
-                this.drawSelectionUI()
-                this.drawProposedMoveUI()
+            }
+            else if (this.selectedPiece) {
+                let position = this.modifier(this.selectedPiece.x) + "-" + this.modifier(this.selectedPiece.y);
+                setOpacity("p"+position, 100);
+                if (this.mouse.dragStarted) {
+                    this.mouse.dragStarted = false;
+                    this.selectedPiece = false;
+                }
+                return;
             }
         }
         else {
             elem("draggable").style.visibility = "hidden";
-            this.selectedPiece = false;
-            this.drawSelectionUI()
-            this.drawProposedMoveUI()
         }
+        if (this.selectedPiece) {
+            let position = this.modifier(this.selectedPiece.x) + "-" + this.modifier(this.selectedPiece.y);
+            setOpacity("p"+position, 100);
+            this.selectedPiece = false;
+            this.drawSelectionUI();
+            this.drawProposedMoveUI();
+        }
+        this.mouse.dragStarted = false;
         this.mouse.piece = false;
     }
 }

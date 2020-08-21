@@ -1,5 +1,6 @@
 body {
     background: #c4e1ff;
+    font-family: 'Roboto', sans-serif;
 }
 table {
     background: #7fb35d;
@@ -9,6 +10,7 @@ table {
     -moz-box-shadow: 1px 1px 8px 0px rgba(0,0,0,0.88);
     box-shadow: 1px 1px 8px 0px rgba(0,0,0,0.88);
     cursor: pointer;
+    float: left;
 }
 td {
     width: 95px;
@@ -32,11 +34,11 @@ tr:nth-child(odd) td:nth-child(odd), tr:nth-child(even) td:nth-child(even) {
 }
 
 .selected {
-    background: rgba(0,0,255,0.6);
+    background: rgba(0,0,255,0.5);
 }
 
 .proposed {
-    background: rgb(0, 255, 255) !important;
+    background: rgb(0, 100, 100) !important;
 }
 
 .clicked {
@@ -77,6 +79,92 @@ tr:nth-child(odd) td:nth-child(odd) div, tr:nth-child(even) td:nth-child(even) d
     visibility: hidden;
 }
 
+.full_container {
+    display: inline-block;
+} 
+
+.right_container {
+    width: 300px;
+    background: #e0ffdb;
+    float: left;
+    margin-left: 50px;
+    -webkit-box-shadow: 1px 1px 8px 0px rgba(0,0,0,0.88);
+    -moz-box-shadow: 1px 1px 8px 0px rgba(0,0,0,0.88);
+    box-shadow: 1px 1px 8px 0px rgba(0,0,0,0.88);
+}
+
+.timer {
+  width: 290px;
+  height: 90px;
+  background: black;
+  font-size: 60px;
+  line-height: 90px;
+  text-align: left;
+  padding: 5px;
+  color: white;
+  display: block;
+}
+
+.name {
+  color: black;
+  font-size: 30px;
+  height: 40px;
+  font-family: monospace;
+  font-weight: bold;
+  line-height: 40px;
+  background: #7fb35d;
+}
+
+.ui_button {
+    display: inline-block;
+    width: 60px;
+    height: 40px;
+    cursor: pointer;
+    border-bottom: 3px solid black;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+
+.ui_button img {
+  height: 40px;
+}
+
+.ui_button:hover {
+    background: white;
+} 
+
+.ui_button:active {
+    background: #7fb35d;
+}
+
+.chatbox {
+  width: 280px;
+  height: 384px;
+  margin-top: 10px;
+  background: white;
+  overflow: hidden;
+  margin-bottom: 10px;
+  -webkit-box-shadow: inset 0px 0px 8px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: inset 0px 0px 8px 0px rgba(0,0,0,0.75);
+  box-shadow: inset 0px 0px 8px 0px rgba(0,0,0,0.75);
+}
+
+.chat_input {
+  width: 250px;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
+.send_button {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  position: relative;
+  top: 7px;
+}
 
 .no_select {
   -webkit-touch-callout: none; /* iOS Safari */

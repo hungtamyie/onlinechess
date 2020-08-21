@@ -2,7 +2,11 @@ class Game {
     constructor() {
         //gamestate stuff
         this.pieces = [];
+        this.halfMoveCount = 0;
+        this.playerToMove = 0;
+        this.check = false;
         
+        //Generate standard board
         for (let i = 0; i < 8; i++) {
             this.pieces.push((new Pawn(i, 1, 1, this)));
             this.pieces.push((new Pawn(i, 6, 2, this)));
