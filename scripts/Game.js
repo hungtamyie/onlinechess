@@ -28,7 +28,7 @@ class Game {
             })
         return pieceMap;
     }
-    pieceAt(x,y){
+    pieceAt(x,y) {
         for(let i=0; i<this.pieces.length; i++) {
             if(this.pieces[i].x == x && this.pieces[i].y == y) {
                 return this.pieces[i];
@@ -36,8 +36,29 @@ class Game {
         }
         return false;
     }
+    findCheck(king) { //finds if certain team's king is in check
+        let isCheck = false; //will return true or false
+        let x = king.x;
+        let y = king.y;
+        let kingLocation = Array(x, y); //king's location
+        for(let i=0; i<this.pieces.length; i++) {
+            if(this.pieces[i].team != king.team) { //we need to find enemy pieces
+                //holds spacesCovered array of current piece in loop
+                let currentSpace = this.pieces[i].spacesCovered();
+                currentSpace.forEach(
+                    currentValue => { 
+                        if(currentValue[0] == kingLocation[0]) {
+                            if(currentValue[1] == kingLocation[1]) {
+                                console.log(this.pieces[i].name + " " + this.pieces[i].x + "," + this.pieces[i].y + " " + "check");
+                                isCheck = true;
+                            }
+                        }
+                    }
+                )
+            }  
+        }return isCheck;
+    }
 }
 let test = new Game();
 let pieceMap = test.getMap();
 console.log(pieceMap);
-
