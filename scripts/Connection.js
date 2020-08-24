@@ -1,57 +1,42 @@
 const uuid = PubNub.generateUUID();
+var myChannel = "none";
+var amHost = "false";
+var myName = "none";
+var myOpponent = "none";
 const pubnub = new PubNub({
     publishKey: "pub-c-878d20d0-0e8b-49c7-81cf-14bd98d67dae",
     subscribeKey: "sub-c-cc9725ba-e32d-11ea-9395-f2758a71b136",
     uuid: uuid
 });
 
-const button = document.getElementById('sendChatButton');
-
-button.addEventListener('click', () => {
+function send(type, content){
     pubnub.publish({
-        channel : "pubnub_onboarding_channel",
-        message : {"sender": uuid, "content": "Hello From JavaScript SDK"}
+        channel : myChannel,
+        message : {"sender": uuid, "type": type, "content": content, name: myName}
     }, function(status, response) {
         //Handle error here
+        console.log(status)
     });
-});
+}
 
-pubnub.subscribe({
-    channels: ['pubnub_onboarding_channel'],
-    withPresence: true
-});
+function joinChannel(channel) {
+    myChannel = channel;
+    pubnub.subscribe({
+        channels: [channel],
+        withPresence: true
+    });
+}
 
 pubnub.addListener({
-    message: function(event) {
-    let pElement = document.createElement('p');
-    pElement.appendChild(document.createTextNode(event.message.content));
-    document.body.appendChild(pElement);
+  message: function(event) {
+    if (event.message.type == "chat") {
+        ui.handleChat(event.message.content, event.message.name);
+    }
+    if (event.message.type == "start") {
+        ui.startGame();
+    }
   },
   presence: function(event) {
-    let pElement = document.createElement('p');
-    pElement.appendChild(document.createTextNode(event.uuid + " has joined. That's you!"));
-    document.body.appendChild(pElement);
+    console.log(event);
   }
 });
-
-pubnub.history(
-  {
-    channel: 'pubnub_onboarding_channel',
-    count: 10,
-    stringifiedTimeToken: true,
-  },
-  function (status, response) {
-    let pElement = document.createElement('h3');
-    pElement.appendChild(document.createTextNode('historical messages'));
-    document.body.appendChild(pElement);
-
-    pElement = document.createElement('ul');
-    let msgs = response.messages;
-    for (let i in msgs) {
-      msg = msgs[i];
-      let pElement = document.createElement('li');
-      pElement.appendChild(document.createTextNode('sender: ' + msg.entry.sender + ', content: ' + msg.entry.content));
-      document.body.appendChild(pElement);
-    }
-  }
-);
