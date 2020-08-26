@@ -179,4 +179,75 @@ class UIHandler {
         this.mouse.dragStarted = false;
         this.mouse.piece = false;
     }
+    
+    sendMessage(){
+        let m = elem("input").value;
+        if (m != "") {
+            send("chat", m);
+        }
+        elem("input").value = "";
+    }
+    
+    handleChat(message, name){
+        elem("chatbox").innerHTML += name + ": " + message + "<br>";
+    }
+    
+    promptCreate(){
+        elem("startBlack").style.visibility = "visible";
+        elem("startWhite").style.visibility = "visible";
+        elem("lobbyInput").style.visibility = "hidden";
+        elem("lobbyName").style.visibility = "hidden";
+        elem("lobbyMessage").style.visibility = "visible";
+        elem("lobbyMessage").innerHTML = "Choose your side";
+    }
+    
+    promptJoin(){
+        let lobbyInput = elem("lobbyInput").value;
+        if (lobbyInput == "") {
+            elem("startBlack").style.visibility = "hidden";
+            elem("startWhite").style.visibility = "hidden";
+            elem("lobbyInput").style.visibility = "visible";
+            elem("lobbyName").style.visibility = "hidden";
+            elem("lobbyMessage").style.visibility = "visible";
+            elem("lobbyMessage").innerHTML = "Enter game code";
+            pubnub.unsubscribeAll();
+        }
+        else {
+            self = this;
+            pubnub.hereNow({
+                channels: [lobbyInput],
+                includeUUIDs: true,
+                includeState: true,
+            }, (status, response) => {
+              // handle status, response
+                console.log(response);
+                if (response.totalOccupancy == 1) {
+                    joinChannel(lobbyInput);
+                    send("start", "start")
+                    self.startGame();
+                }
+                else {
+                    elem("lobbyMessage").innerHTML = "No lobby found!";
+                }
+            });
+        }
+    }
+    
+    createGame(side){
+        elem("startBlack").style.visibility = "hidden";
+        elem("startWhite").style.visibility = "hidden";
+        elem("lobbyInput").style.visibility = "hidden";
+        elem("lobbyName").style.visibility = "visible";
+        elem("lobbyMessage").style.visibility = "visible";
+        elem("lobbyMessage").innerHTML = "Click to copy";
+        pubnub.unsubscribeAll();
+        
+        joinChannel(makeid(6));
+        elem("lobbyName").innerHTML = myChannel;
+    }
+    
+    startGame(){
+        myName = elem("nameInput").value||getRandomName();
+        elem("startScreen").style.display = "none";
+    }
 }
