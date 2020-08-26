@@ -16,12 +16,23 @@ class Pawn extends Piece {
         let allPawnMoves = []; //holds the 3 possible Pawn moves
         let x = this.x; //current pawn position
         let y = this.y; //current pawn position
-        findPawnMoves(x, y+1);
-        if(this.firstMove) { //if pawn hasn't moved, it can move forward twice
-            findPawnMoves(x, y+2);
+        if(this.team == 1) { //if pawn is white
+            findPawnMoves(x, y+1);
+            if(this.firstMove) { //if pawn hasn't moved, it can move forward twice
+                findPawnMoves(x, y+2);
+            }
+            findPawnMoves(x-1, y+1);
+            findPawnMoves(x+1, y+1);
+        }else if(this.team == 2) { //if pawn is black
+            findPawnMoves(x, y-1);
+            if(this.firstMove) { //if pawn hasn't moved, it can move forward twice
+                findPawnMoves(x, y-2);
+            }
+            findPawnMoves(x-1, y-1);
+            findPawnMoves(x+1, y-1);
         }
-        findPawnMoves(x-1, y+1);
-        findPawnMoves(x+1, y+1);
+        
+
         //move legal spaces into availableSpaces array
         allPawnMoves.forEach(
             (currentValue, index) => { 

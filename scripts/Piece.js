@@ -9,6 +9,8 @@ class Piece {
     validMove(newX, newY) {
         //checks to see if move is legal
         let valid = false;
+        let oldX = this.x;
+        let oldY = this.y; //we will need to revert the changes made when calling findCheck
         let availableSpaces = this.spacesCovered();
         availableSpaces.forEach(
             (currentValue) => {
@@ -25,14 +27,15 @@ class Piece {
                 if(this.myGame.pieces[i].name == "king" && this.myGame.pieces[i].team == this.team) { //to find team's king
                     valid = !(this.myGame.findCheck(this.myGame.pieces[i]));
                     if(valid) {
-                        console.log("This move is valid");
+                        console.log("The king will not be in check");
                     }else {
                         console.log("This leaves king in check");
                     }
                 }
             }
-
         }
+        this.x = oldX;
+        this.y = oldY; //reset piece's location (we just needed to change temporarliy)
         return valid;
     }
 

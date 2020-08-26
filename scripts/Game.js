@@ -3,7 +3,7 @@ class Game {
         //gamestate stuff
         this.pieces = [];
         this.halfMoveCount = 0;
-        this.playerToMove = 0;
+        this.playerToMove = 1; //1=white's turn, 2=black's turn
         this.check = false;
         
         //Generate standard board
@@ -19,6 +19,21 @@ class Game {
             }
             this.pieces.push((new King(4, i * 7, i+1, this)));
             this.pieces.push((new Queen(3, i * 7, i+1, this)));
+        }
+    }
+    move(oldX, oldY, newX, newY) {
+        if(this.pieceAt(oldX, oldY).team == this.playerToMove) { //make sure the right team is being moved
+            if(this.pieceAt(oldX, oldY).validMove(newX, newY)) { //if this move is valid
+                this.pieceAt(oldX, oldY).x = newX;
+                this.pieceAt(newX, oldY).y = newY; //move piece location
+                if(this.playerToMove == 1) {
+                    this.playerToMove = 2; //next turn will be black
+                }else if(this.playerToMove == 2) {
+                    this.playerToMove = 1; //next turn will be white
+                }
+            }
+        }else {
+            console.log("You're attempting to move the wrong team");
         }
     }
     getMap() {
