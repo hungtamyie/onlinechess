@@ -29,7 +29,21 @@ class Game {
                 piece.y = newY; //move piece location
                 
                 this.deletePiece(newX,newY);
-                
+
+                piece.moveCount++;
+                piece.x = newX;
+                piece.y = newY; //move piece location
+                if(piece.name == "king") {
+                    if(oldX - newX == -2) { //if king-side castle
+                        let rook = this.pieceAt(newX + 1, newY); //get access to rook
+                        rook.moveCount++;
+                        rook.x = newX - 1; //move rook
+                    }else if(oldX - newX == 2) { //if queen-side castle
+                        let rook = this.pieceAt(newX - 2, newY); //get access to rook
+                        rook.moveCount++;
+                        rook.x = newX + 1;
+                    }
+                }
                 if(this.playerToMove == 1) {
                     this.playerToMove = 2; //next turn will be black
                 }else if(this.playerToMove == 2) {

@@ -22,6 +22,23 @@ class King extends Piece {
         findKingMoves(x-1, y-1);
         findKingMoves(x-1, y);
         findKingMoves(x-1, y+1);
+        if(this.moveCount == 0) { //check if castling is legal
+            //king side castling
+            if((this.isOccupied([x+1, y], this) == -1) && (this.isOccupied([x+2, y], this) == -1)) { //if spaces between king and rook aren't occupied
+                if((this.isOccupied([x+3, y], this) == this.team) && (this.myGame.pieceAt(x+3, y).name == "rook")) { //if space is occupied by teammate rook
+                    if(this.myGame.pieceAt(x+3, y).moveCount == 0) { //if rook also hasn't moved
+                        findKingMoves(x+2, y);
+                    }
+                }
+            }
+            if((this.isOccupied([x-1, y], this) == -1) && (this.isOccupied([x-2, y], this) == -1) && (this.isOccupied([x-3, y], this) == -1)) { //if spaces between king and rook aren't occupied
+                if((this.isOccupied([x-4, y], this) == this.team) && (this.myGame.pieceAt(x-4, y).name == "rook")) { //if space is occupied by teammate rook
+                    if(this.myGame.pieceAt(x-4, y).moveCount == 0) { //if rook also hasn't moved
+                        findKingMoves(x-2, y);
+                    }
+                }
+            } 
+        }
         //move legal spaces into availableSpaces array
         allKingMoves.forEach(
             currentValue => { if(this.isOccupied(currentValue, this) == 0 || this.isOccupied(currentValue, this) == -1) {
