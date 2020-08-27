@@ -27,8 +27,6 @@ class Game {
             if(piece.validMove(newX, newY)) { //if this move is valid
                 piece.x = newX;
                 piece.y = newY; //move piece location
-                
-                this.deletePiece(newX,newY);
 
                 piece.moveCount++;
                 piece.x = newX;
@@ -44,12 +42,11 @@ class Game {
                         rook.x = newX + 1;
                     }
                 }
-                if(this.playerToMove == 1) {
-                    this.playerToMove = 2; //next turn will be black
-                }else if(this.playerToMove == 2) {
-                    this.playerToMove = 1; //next turn will be white
-                }
-                this.playerToMove = (this.playerToMove == 1) ? 1 : 2;
+                
+                this.deletePiece(newX,newY);
+
+                this.playerToMove = (this.playerToMove == 2) ? 1 : 2;
+                console.log(this.playerToMove);
                 
                 return true;
             }

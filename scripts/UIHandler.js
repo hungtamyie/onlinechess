@@ -162,6 +162,7 @@ class UIHandler {
             elem("draggable").style.visibility = "hidden";
             if (this.selectedPiece && (this.selectedPiece.x != this.modifier(ui.mouse.boardX) || this.selectedPiece.y != this.modifier(ui.mouse.boardY))) {
                 console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(this.mouse.boardX) + ", " +this.modifier(this.mouse.boardY) + ")");    
+                gameHandler.move(this.selectedPiece.x, this.selectedPiece.y, this.modifier(this.mouse.boardX), this.modifier(this.mouse.boardY));
             }
             else if (this.selectedPiece) {
                 let position = this.modifier(this.selectedPiece.x) + "-" + this.modifier(this.selectedPiece.y);
@@ -178,6 +179,7 @@ class UIHandler {
         }
         if (this.selectedPiece) {
             let position = this.modifier(this.selectedPiece.x) + "-" + this.modifier(this.selectedPiece.y);
+            this.drawBoard();
             setOpacity("p"+position, 100);
             this.selectedPiece = false;
             this.drawSelectionUI();
