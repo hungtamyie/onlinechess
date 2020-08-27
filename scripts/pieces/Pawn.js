@@ -2,7 +2,6 @@ class Pawn extends Piece {
     constructor(x, y, team, myGame) {
         super(x, y, team, myGame);
         this.name = "pawn";
-        this.firstMove = true;
     }
     // pawn methods
     spacesCovered() {
@@ -18,14 +17,14 @@ class Pawn extends Piece {
         let y = this.y; //current pawn position
         if(this.team == 1) { //if pawn is white
             findPawnMoves(x, y+1);
-            if(this.firstMove) { //if pawn hasn't moved, it can move forward twice
+            if(this.moveCount == 0) { //if pawn hasn't moved, it can move forward twice
                 findPawnMoves(x, y+2);
             }
             findPawnMoves(x-1, y+1);
             findPawnMoves(x+1, y+1);
         }else if(this.team == 2) { //if pawn is black
             findPawnMoves(x, y-1);
-            if(this.firstMove) { //if pawn hasn't moved, it can move forward twice
+            if(this.moveCount == 0) { //if pawn hasn't moved, it can move forward twice
                 findPawnMoves(x, y-2);
             }
             findPawnMoves(x-1, y-1);

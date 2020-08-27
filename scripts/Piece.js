@@ -4,6 +4,7 @@ class Piece {
         this.y = y;
         this.team = team;
         this.myGame = myGame;
+        this.moveCount = 0;
     }
     
     validMove(newX, newY) {
