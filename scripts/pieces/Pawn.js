@@ -28,7 +28,9 @@ class Pawn extends Piece {
                 findPawnMoves(x, y-2);
             }
             findPawnMoves(x-1, y-1);
-            findPawnMoves(x+1, y-1);
+            findPawnMoves(x+1, y-1); //diagonal spaces
+            findPawnMoves(x-1, y);
+            findPawnMoves(x+1, y); //en passant spaces
         }
         
 
@@ -40,13 +42,29 @@ class Pawn extends Piece {
                     if(this.isOccupied(currentValue, this) == -1) {
                         availableSpaces.push(currentValue);
                     }
-                }else if(this.firstMove && index == 1) { //if currentValue is 2 spaces forward
+                }else if(allPawnMoves.length == 6 && index == 1) { //if currentValue is 2 spaces forward
                     if(this.isOccupied(currentValue, this) == -1) {
                         availableSpaces.push(currentValue);
                     }
+                }else if(index == (allPawnMoves.length - 2)) { //left en passant
+                    if(this.isOccupied(currentValue, this) == -1) {
+                        if(this.myGame.pieceAt(currentValue[0], currentValue[1]).moveCount == 1) { //if we can take en passant
+                            currentValue[0]--;
+                            currentValue[1]++; //make sure we push the space behind enemy pawn
+                            availableSpaces.push(currentValue);
+                        }
+                    }
+                }else if(index == (allPawnMoves.length - 1)) { //rigth en passant
+                    if(this.isOccupied(currentValue, this) == -1) {
+                        if(this.myGame.pieceAt(currentValue[0], currentValue[1]).moveCount == 1) { //if we can take en passant
+                            currentValue[0]++;
+                            currentValue[1]++; //make sure we push the space behind enemy pawn
+                            availableSpaces.push(currentValue);
+                        }
+                    }
                 }else { //check diagonal spaces
                     if(this.isOccupied(currentValue, this) == 0) { //if occupied by enemy
-                        availableSpaces.push(currentValue);
+                    availableSpaces.push(currentValue);
                     }
                 }
             }
