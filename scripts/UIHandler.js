@@ -1,6 +1,7 @@
 class UIHandler {
-    constructor(game){
+    constructor(game, gameHandler){
         this.game = game;
+        this.gameHandler = gameHandler;
         this.rotated = false;
         this.selectedPiece = false;
         this.mouse = {
@@ -38,7 +39,9 @@ class UIHandler {
         for (let i = 0; i < this.game.pieces.length; i++){
             let piece = this.game.pieces[i];
             let position =  this.modifier(piece.x) + "-" + this.modifier(piece.y);
-            elem("p"+position).classList.remove("selected");
+            if (elem("p"+position)) {
+                elem("p"+position).classList.remove("selected");
+            }
         }
         if (this.selectedPiece) {
             if (elem("draggable").style.visibility != "visible") {
@@ -132,18 +135,22 @@ class UIHandler {
             }
             else {
                 this.selectedPiece = false;
+                this.drawBoard()
                 this.drawSelectionUI()
                 this.drawProposedMoveUI()
             }
         }
         else if (this.selectedPiece != pieceClicked) {
             console.log(this.selectedPiece.name + " at (" + this.selectedPiece.x + ", " + this.selectedPiece.y + ") to (" + this.modifier(this.mouse.boardX) + ", " +this.modifier(this.mouse.boardY) + ")");    
+            gameHandler.move(this.selectedPiece.x, this.selectedPiece.y, this.modifier(this.mouse.boardX), this.modifier(this.mouse.boardY));
             this.selectedPiece = false;
+            this.drawBoard()
             this.drawSelectionUI()
             this.drawProposedMoveUI()
         }
         else {
             this.selectedPiece = false;
+            this.drawBoard()
             this.drawSelectionUI()
             this.drawProposedMoveUI()
         }
