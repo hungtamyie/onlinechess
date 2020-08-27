@@ -22,10 +22,11 @@ class Game {
         }
     }
     move(oldX, oldY, newX, newY) {
-        if(this.pieceAt(oldX, oldY).team == this.playerToMove) { //make sure the right team is being moved
-            if(this.pieceAt(oldX, oldY).validMove(newX, newY)) { //if this move is valid
-                this.pieceAt(oldX, oldY).x = newX;
-                this.pieceAt(newX, oldY).y = newY; //move piece location
+        let piece = this.pieceAt(oldX, oldY);
+        if(piece.team == this.playerToMove) { //make sure the right team is being moved
+            if(piece.validMove(newX, newY)) { //if this move is valid
+                piece.x = newX;
+                piece.y = newY; //move piece location
                 if(this.playerToMove == 1) {
                     this.playerToMove = 2; //next turn will be black
                 }else if(this.playerToMove == 2) {
