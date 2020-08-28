@@ -76,7 +76,7 @@ class Game {
     deletePiece(x,y){
         for(let i=0; i<this.pieces.length; i++) {
             if(this.pieces[i].x == x && this.pieces[i].y == y) {
-                this.pieces.splice[i,1];
+                this.pieces.splice(i,1);
                 return true;
             }
         }
