@@ -25,6 +25,8 @@ class Game {
         let piece = this.pieceAt(oldX, oldY);
         if(piece.team == this.playerToMove) { //make sure the right team is being moved
             if(piece.validMove(newX, newY)) { //if this move is valid
+                this.deletePiece(newX,newY);
+                
                 piece.x = newX;
                 piece.y = newY; //move piece location
 
@@ -42,8 +44,6 @@ class Game {
                         rook.x = newX + 1;
                     }
                 }
-                
-                this.deletePiece(newX,newY);
 
                 this.playerToMove = (this.playerToMove == 2) ? 1 : 2;
                 console.log(this.playerToMove);
