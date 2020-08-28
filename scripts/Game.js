@@ -26,10 +26,12 @@ class Game {
         if(piece.team == this.playerToMove) { //make sure the right team is being moved
             if(piece.validMove(newX, newY)) { //if this move is valid
                 this.deletePiece(newX,newY);
-                
-                piece.x = newX;
-                piece.y = newY; //move piece location
-
+                let isCapture;
+                if(!(this.deletePiece(newX, newY))) {
+                    isCapture = false;
+                }else {
+                    isCapture = true;
+                }
                 piece.moveCount++;
                 piece.x = newX;
                 piece.y = newY; //move piece location
@@ -42,6 +44,12 @@ class Game {
                         let rook = this.pieceAt(newX - 2, newY); //get access to rook
                         rook.moveCount++;
                         rook.x = newX + 1;
+                    }
+                }else if(piece.name == "pawn") {
+                    if(newX - oldX != 0) { //if pawn just moved diagonally
+                        if(!isCapture) { //if diagonal space was empty
+                            this.deletePiece(newX, oldY);
+                        }
                     }
                 }
 
