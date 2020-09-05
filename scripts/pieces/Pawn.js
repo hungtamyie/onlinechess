@@ -47,6 +47,11 @@ class Pawn extends Piece {
                 }else if((currentValue[0] == (x-1)) || (currentValue[0] == (x+1))) { //check diagonal spaces
                     if(this.isOccupied(currentValue, this) == 0) { //if occupied by enemy
                         availableSpaces.push(currentValue);
+                    }else if(this.isOccupied(Array(currentValue[0], this.y), this) == 0) { //or if enemy is directly next to us
+                        let enemy = this.myGame.pieceAt(currentValue[0], this.y);
+                        if(enemy.name == "pawn" && enemy.moveCount == 1) {
+                            availableSpaces.push(currentValue);
+                        }
                     }
                 }
             }
