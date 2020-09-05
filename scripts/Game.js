@@ -21,7 +21,7 @@ class Game {
             this.pieces.push((new Queen(3, i * 7, i+1, this)));
         }
     }
-    move(oldX, oldY, newX, newY) {
+    move(oldX, oldY, newX, newY, promotion) {
         let piece = this.pieceAt(oldX, oldY);
         if(piece.team == this.playerToMove) { //make sure the right team is being moved
             if(piece.validMove(newX, newY)) { //if this move is valid

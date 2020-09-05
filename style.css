@@ -338,3 +338,33 @@ input {
   color: white;
   visibility: hidden;
 }
+
+.promotion_container {
+  position: fixed;
+  width: 250px;
+  height: 250px;
+  background: white;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  margin-top: -150px;
+  margin-left: -150px;
+  padding-top: 2px;
+  -webkit-box-shadow: 1px 1px 8px 0px rgba(0,0,0,0.88);
+    -moz-box-shadow: 1px 1px 8px 0px rgba(0,0,0,0.88);
+    box-shadow: 1px 1px 8px 0px rgba(0,0,0,0.88);
+  background: #e0ffdb;
+}
+
+.promotion_piece {
+  width: 95px;
+  height: 95px;
+  cursor: pointer;
+  margin: 10px;
+  border: 4px solid black;
+  border-radius: 15px;
+}
+
+.promotion_piece:hover {
+  background: #7fb35d;
+}
