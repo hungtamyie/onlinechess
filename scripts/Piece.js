@@ -22,6 +22,8 @@ class Piece {
             }
         );
         if(valid) { //must also call findCheck
+            let pieceTaken = this.myGame.pieceAt(newX, newY); //store captured piece in case we need to revert
+            this.myGame.deletePiece(newX, newY); //capture piece if necessary
             this.x = newX;
             this.y = newY; //if we make move, will king be in check?
             for(let i=0; i<this.myGame.pieces.length; i++) { //loop through pieces 
@@ -34,9 +36,13 @@ class Piece {
                     }
                 }
             }
-        }
         this.x = oldX;
         this.y = oldY; //reset piece's location (we just needed to change temporarliy)
+            if(pieceTaken) {
+                this.myGame.pieces.push(pieceTaken); //restore captured piece
+            }
+        }
+        
         return valid;
     }
 

@@ -8,17 +8,17 @@ class Game {
         
         //Generate standard board
         for (let i = 0; i < 8; i++) {
-            this.pieces.push((new Pawn(i, 1, 1, this)));
-            this.pieces.push((new Pawn(i, 6, 2, this)));
+            this.pieces.push(new Pawn(i, 1, 1, this));
+            this.pieces.push(new Pawn(i, 6, 2, this));
         }
         for (let i = 0; i < 2; i++) {
             for (let j=0; j<2; j++) {
-                this.pieces.push((new Rook(0 + 7*j, i * 7, i+1, this)));
-                this.pieces.push((new Knight(1 + 7*j - 2*j, i * 7, i+1, this)));
-                this.pieces.push((new Bishop(2 + 7*j - 4*j, i * 7, i+1, this)));
+                this.pieces.push(new Rook(0 + 7*j, i * 7, i+1, this));
+                this.pieces.push(new Knight(1 + 7*j - 2*j, i * 7, i+1, this));
+                this.pieces.push(new Bishop(2 + 7*j - 4*j, i * 7, i+1, this));
             }
-            this.pieces.push((new King(4, i * 7, i+1, this)));
-            this.pieces.push((new Queen(3, i * 7, i+1, this)));
+            this.pieces.push(new King(4, i * 7, i+1, this));
+            this.pieces.push(new Queen(3, i * 7, i+1, this));
         }
     }
     move(oldX, oldY, newX, newY, promotion) {
@@ -112,4 +112,5 @@ class Game {
             }  
         }return isCheck;
     }
+
 }

@@ -71,6 +71,7 @@ class UIHandler {
         }
         this.updateGrid();
         this.drawBoard();
+        this.updateNames();
     }
     
     updateGrid() {
@@ -232,8 +233,9 @@ class UIHandler {
                 console.log(response);
                 if (response.totalOccupancy == 1) {
                     joinChannel(lobbyInput);
-                    send("start", "start")
-                    self.startGame();
+                    myName = elem("nameInput").value;
+                    send("start", myName);
+                    //self.startGame();
                 }
                 else {
                     elem("lobbyMessage").innerHTML = "No lobby found!";
@@ -253,10 +255,27 @@ class UIHandler {
         
         joinChannel(makeid(6));
         elem("lobbyName").innerHTML = myChannel;
+        mySide = side;
     }
     
     startGame(){
         myName = elem("nameInput").value||getRandomName();
         elem("startScreen").style.display = "none";
+        if(mySide == 2) {
+            this.rotateBoard();
+        }
+        this.updateNames();
+    }
+
+    updateNames() {
+        if((mySide == 1 && this.rotated) || (mySide == 2 && !this.rotated)) {
+            elem("nameTop").innerHTML = myName;
+            elem("nameBottom").innerHTML = myOpponent;
+        }else {
+            elem("nameTop").innerHTML = myOpponent;
+            elem("nameBottom").innerHTML = myName;
+
+        }
+         
     }
 }

@@ -3,6 +3,7 @@ var myChannel = "none";
 var amHost = "false";
 var myName = "none";
 var myOpponent = "none";
+var mySide = -1;
 const pubnub = new PubNub({
     publishKey: "pub-c-878d20d0-0e8b-49c7-81cf-14bd98d67dae",
     subscribeKey: "sub-c-cc9725ba-e32d-11ea-9395-f2758a71b136",
@@ -33,7 +34,23 @@ pubnub.addListener({
         ui.handleChat(event.message.content, event.message.name);
     }
     if (event.message.type == "start") {
-        ui.startGame();
+        
+        console.log(event.message);
+        myName = elem("nameInput").value||getRandomName();
+        send("startingInfo", mySide);
+    }
+    if (event.message.type == "startingInfo") {
+        console.log(event.message);
+        if(uuid != event.message.sender) {
+            myOpponent = event.message.name;
+            if(event.message.content != -1) { //if opponent has side
+                if(event.message.content == 1) {
+                    mySide = 2;
+                }else {
+                    mySide = 1;
+                }
+            }ui.startGame();
+        }
     }
   },
   presence: function(event) {
