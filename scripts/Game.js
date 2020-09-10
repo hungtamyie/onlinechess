@@ -25,7 +25,6 @@ class Game {
         let piece = this.pieceAt(oldX, oldY);
         if(piece.team == this.playerToMove) { //make sure the right team is being moved
             if(piece.validMove(newX, newY)) { //if this move is valid
-                //this.deletePiece(newX,newY);
                 let isCapture;
                 if(this.deletePiece(newX, newY)) {
                     isCapture = true;
@@ -112,5 +111,4 @@ class Game {
             }  
         }return isCheck;
     }
-
 }

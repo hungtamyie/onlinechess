@@ -2,8 +2,20 @@ class Pawn extends Piece {
     constructor(x, y, team, myGame) {
         super(x, y, team, myGame);
         this.name = "pawn";
+        this.isEnPassant = false;
     }
     // pawn methods
+    findEnPassant() { //returns true if THIS pawn can be taken en passant
+        if(this.isEnPassant && this.myGame.playerToMove == this.team) { //if this pawn was able to be taken en passant last FULL turn
+            this.isEnPassant = -1; // en passant shouldn't be legal for rest of game
+        }else if(this.moveCount == 0 && this.isEnPassant != -1) {
+            if(this.team == 1 && this.y == 3) { //for white pawn to be taken it must be on 4th rank
+                this.isEnPassant = true;
+            }else if(this.team == 2 && this.y == 4) { //for black pawn to be taken it must be on the 5th rank
+                this.isEnPassant = true;
+            }
+        }
+    }
     spacesCovered() {
         //returns array of spaces covered (diagonally forward spaces AND directly forward)
         function findPawnMoves(x, y) { //fills allPawnMoves array
@@ -47,10 +59,13 @@ class Pawn extends Piece {
                 }else if((currentValue[0] == (x-1)) || (currentValue[0] == (x+1))) { //check diagonal spaces
                     if(this.isOccupied(currentValue, this) == 0) { //if occupied by enemy
                         availableSpaces.push(currentValue);
-                    }else if(this.isOccupied(Array(currentValue[0], this.y), this) == 0) { //or if enemy is directly next to us
+                    }else if(this.isOccupied(Array(currentValue[0], this.y), this) == 0) { //or if enemy is directly next to us EN PASSANT
                         let enemy = this.myGame.pieceAt(currentValue[0], this.y);
-                        if(enemy.name == "pawn" && enemy.moveCount == 1) {
-                            availableSpaces.push(currentValue);
+                        if(enemy.name == "pawn") { //check for pawn 
+                            enemy.findEnPassant();
+                            if(enemy.isEnPassant === true) {
+                                availableSpaces.push(currentValue);
+                            }
                         }
                     }
                 }
