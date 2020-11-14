@@ -33,6 +33,10 @@ pubnub.addListener({
     if (event.message.type == "chat") {
         ui.handleChat(event.message.content, event.message.name);
     }
+    if(event.message.type == "gameUpdate") {
+        let moveInfo = event.message.content;
+        game.move(moveInfo[0], moveInfo[1], moveInfo[2], moveInfo[3]);
+    }
     if (event.message.type == "start") {
         
         console.log(event.message);
@@ -40,6 +44,7 @@ pubnub.addListener({
         send("startingInfo", mySide);
     }
     if (event.message.type == "startingInfo") {
+        gameHandler.isMultiplayer = true;
         console.log(event.message);
         if(uuid != event.message.sender) {
             myOpponent = event.message.name;
