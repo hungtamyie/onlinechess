@@ -36,6 +36,7 @@ pubnub.addListener({
     if(event.message.type == "gameUpdate") {
         let moveInfo = event.message.content;
         game.move(moveInfo[0], moveInfo[1], moveInfo[2], moveInfo[3]);
+        ui.drawBoard();
     }
     if (event.message.type == "start") {
         

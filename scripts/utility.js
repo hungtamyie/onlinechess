@@ -181,7 +181,8 @@ let game;
 let ui;
 function runTest(){
     game = new Game();
-    gameHandler = new GameHandler(game);
-    ui = new UIHandler(game,gameHandler);
+    gameHandler = new GameHandler(game); 
+    ui = new UIHandler(game, gameHandler);
+    gameHandler = new GameHandler(game, ui);
     ui.drawBoard();
 }
