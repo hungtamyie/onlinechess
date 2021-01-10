@@ -369,3 +369,11 @@ input {
 .promotion_piece:hover {
   background: #7fb35d;
 }
+
+.check-light-square {
+  background: radial-gradient(ellipse at center, red 0%, #e70000 25%, rgb(250, 197, 197) 70%,  #e0ffdb 90%) !important;
+}
+
+.check-dark-square {
+  background: radial-gradient(ellipse at center, red 0%, #e70000 25%,  rgb(169,0,0,0) 80%,  #7fb35d 90%) !important;
+}

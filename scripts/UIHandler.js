@@ -33,6 +33,13 @@ class UIHandler {
             let color = ([" ", "w", "b"])[piece.team];
             elem("b" + position).innerHTML += "<img class='piece no_select' draggable='false' id='p" + position + "' src = './images/pieces/" + piece.name + "_" + color + ".png'></img>";
         }
+        
+        //playerToMove hasn't been changed due to game.move() so we temporarily change
+        this.game.playerToMove = (this.game.playerToMove == 2) ? 1 : 2;
+
+        //draw red square if there is check or remove pre-existing checks
+        this.drawCheck(this.game.playerToMove);
+        this.game.playerToMove = (this.game.playerToMove == 2) ? 1 : 2; //change back
     }
     
     drawSelectionUI(){
@@ -277,5 +284,41 @@ class UIHandler {
 
         }
          
+    }
+
+    drawCheck(attackingTeam) {
+        //remove all red from the board
+        let tdList = document.getElementsByTagName("td");
+        for(let i=0; i<tdList.length; i++) {
+            tdList[i].classList.remove('check-light-square');
+            tdList[i].classList.remove('check-dark-square');
+        }
+        
+        for(let i=0; i<this.game.pieces.length; i++) { //loop through pieces 
+            if(this.game.pieces[i].name == "king" && this.game.pieces[i].team != attackingTeam) { //to find enemy king
+                let x = this.game.pieces[i].x;
+                let y = this.game.pieces[i].y;
+                //find which <td> king is on
+                let htmlCol;
+                if(this.rotated) { //if black on bottom / board flipped
+                    x = 7 - x
+                    y = 7 - y;
+                } 
+                    let htmlRow = document.getElementById("row" + (7-y));
+                    let htmlCols = htmlRow.children;
+                    htmlCol = htmlCols[x];  
+                if(this.game.findCheck(this.game.pieces[i])) {
+                    //add red ui
+                    if((x % 2 == 0) && (y % 2 != 0)) {
+                        htmlCol.classList.add('check-light-square');    
+                    }else if((x % 2 != 0) && (y % 2 == 0)) {
+                        htmlCol.classList.add('check-light-square');
+                    }else {
+                        htmlCol.classList.add('check-dark-square');
+                    }
+                    
+                }
+            }
+        } 
     }
 }
